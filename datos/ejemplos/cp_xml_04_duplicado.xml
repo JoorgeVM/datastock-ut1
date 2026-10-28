@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalogo>
+  <producto>
+    <codigo>TEC-001</codigo>
+    <nombre>Teclado XML duplicado</nombre>
+    <precio>22.00</precio>
+    <stock>5</stock>
+    <categoriaId>1</categoriaId>
+    <proveedorId>1</proveedorId>
+  </producto>
+</catalogo>

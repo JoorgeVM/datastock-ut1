@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE catalogo [
+  <!ELEMENT catalogo (producto+)>
+  <!ELEMENT producto (codigo, nombre, precio, stock, categoriaId, proveedorId)>
+  <!ELEMENT codigo (#PCDATA)>
+  <!ELEMENT nombre (#PCDATA)>
+  <!ELEMENT precio (#PCDATA)>
+  <!ELEMENT stock (#PCDATA)>
+  <!ELEMENT categoriaId (#PCDATA)>
+  <!ELEMENT proveedorId (#PCDATA)>
+]>
+<catalogo>
+  <producto>
+    <codigo>TEC-001</codigo>
+    <nombre>Teclado con DTD</nombre>
+    <precio>19.95</precio>
+    <stock>10</stock>
+    <categoriaId>1</categoriaId>
+    <proveedorId>1</proveedorId>
+  </producto>
+</catalogo>

@@ -1,0 +1,5 @@
+{
+  "productos": [
+    {"codigo":"TEC-001","nombre":"Teclado repetido","precio":29.99,"stock":10,"categoriaId":1,"proveedorId":1}
+  ]
+}

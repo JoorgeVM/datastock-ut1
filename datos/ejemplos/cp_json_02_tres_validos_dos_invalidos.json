@@ -1,0 +1,9 @@
+{
+  "productos": [
+    {"codigo":"TEC-001","nombre":"Teclado USB","precio":19.95,"stock":12,"categoriaId":1,"proveedorId":1},
+    {"codigo":"RAT-002","nombre":"Ratón inalámbrico","precio":14.50,"stock":25,"categoriaId":1,"proveedorId":1},
+    {"codigo":"CAB-005","nombre":"Cable USB","precio":7.99,"stock":30,"categoriaId":1,"proveedorId":1},
+    {"codigo":"TEC-004","nombre":"Teclado mecánico","precio":-5.00,"stock":8,"categoriaId":1,"proveedorId":1},
+    {"codigo":"","nombre":"Producto sin código","precio":25.00,"stock":5,"categoriaId":2,"proveedorId":1}
+  ]
+}
