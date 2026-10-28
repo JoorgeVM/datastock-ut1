@@ -67,12 +67,12 @@ public final class ValidadorProducto {
             errores.add("el stock no puede ser negativo");
         }
 
-        // 5. CategoriaId (entero positivo en UT1)
+        // 5. CategoriaId (entero positivo en UT1; en UT2 se verificará la FK en MySQL)
         if (p.getCategoriaId() <= 0) {
             errores.add("el identificador de categoría debe ser un entero positivo");
         }
 
-        // 6. ProveedorId (entero positivo en UT1)
+        // 6. ProveedorId (entero positivo en UT1; en UT2 se verificará la FK en MySQL)
         if (p.getProveedorId() <= 0) {
             errores.add("el identificador de proveedor debe ser un entero positivo");
         }
