@@ -167,6 +167,7 @@ public final class XPathActividad {
         }
 
         try {
+            // La condición [precio > X] excluye estrictamente los productos con precio igual al valor límite
             String expresion = "/catalogo/producto[precio > " + precioMin + "]";
             NodeList lista = (NodeList) xpath.evaluate(expresion, doc, XPathConstants.NODESET);
             if (lista.getLength() == 0) {
