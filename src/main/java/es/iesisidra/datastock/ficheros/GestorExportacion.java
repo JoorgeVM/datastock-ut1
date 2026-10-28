@@ -67,6 +67,7 @@ public class GestorExportacion {
         }
         raiz.add("productos", arrayProds);
 
+        // Configuración de Gson con formato legible e indentado
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(ficheroDestino), StandardCharsets.UTF_8)) {
