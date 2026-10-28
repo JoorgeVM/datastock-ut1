@@ -88,9 +88,9 @@ public class GestorConsultas {
 
     private void mostrarFichaProducto(Producto p) {
         System.out.println("----------------------------------------------");
-        System.out.println("Código: " + p.getCodigo());
-        System.out.println("Nombre: " + p.getNombre());
-        System.out.println(String.format("Precio: %.2f € | Stock: %d", p.getPrecio(), p.getStock()));
+        System.out.println("Código:    " + p.getCodigo());
+        System.out.println("Nombre:    " + p.getNombre());
+        System.out.println(String.format(java.util.Locale.ROOT, "Precio:    %.2f € | Stock: %d", p.getPrecio(), p.getStock()));
         System.out.println("Categoría: " + p.getCategoriaId() + " | Proveedor: " + p.getProveedorId());
     }
 }

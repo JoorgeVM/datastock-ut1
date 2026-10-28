@@ -58,7 +58,7 @@ public class MenuPrincipal {
                 case 4 -> menuConsultas();
                 case 5 -> menuExportaciones();
                 case 6 -> menuSerializacion();
-                case 0 -> System.out.println(ColoresConsola.pintar("Hasta pronto.", ColoresConsola.VERDE));
+                case 0 -> System.out.println(ColoresConsola.pintar("\n¡Gracias por utilizar DataStock! Hasta pronto.", ColoresConsola.VERDE));
                 default -> throw new IllegalStateException("Opción inesperada");
             }
         } while (opcion != 0);
