@@ -206,7 +206,7 @@ public final class AccesoAleatorioActividad {
                 return;
             }
 
-            // Desplazamiento exacto al campo stock: posición * 36 + 32
+            // Desplazamiento exacto al campo stock: posición * 36 + 32 (solo modifica los 4 bytes de stock)
             long desplazamientoStock = ((long) pos * TAMANO_REGISTRO) + OFFSET_STOCK;
             raf.seek(desplazamientoStock);
             raf.writeInt(nuevoStock);
