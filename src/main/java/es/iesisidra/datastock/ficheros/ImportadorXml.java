@@ -77,6 +77,7 @@ public class ImportadorXml {
 
             DocumentBuilder db = dbf.newDocumentBuilder();
             doc = db.parse(fichero);
+            // Normalizar el árbol DOM para consolidar nodos de texto adyacentes
             doc.getDocumentElement().normalize();
         } catch (SAXParseException e) {
             if (e.getMessage() != null && e.getMessage().toLowerCase().contains("doctype")) {
