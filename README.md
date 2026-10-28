@@ -1,121 +1,149 @@
-# DataStock – Proyecto inicial (UT1)
+# DataStock – Fase 1 (UT1): Ficheros y Formatos de Intercambio
 
 **Módulo:** Acceso a Datos · 2.º DAM · IES Isidra de Guzmán · Curso 2026–2027  
-**Lenguaje:** Java 21 · **Construcción:** Maven · **Interfaz:** consola
+**Autor:** Jorge  
+**Tecnologías:** Java 21 LTS · Maven 3.9 · Gson 2.11 · DOM (JAXP) · XPath · RandomAccessFile · Serialización Java
 
-## 1. ¿Qué es este proyecto?
+---
 
-DataStock es una práctica **individual e integradora** que evolucionará durante tres unidades:
+## 1. Descripción del Proyecto
 
-- **UT1 – Ficheros:** importar JSON/XML, consultar en memoria, exportar, serializar y desarrollar dos actividades independientes (XPath y `RandomAccessFile`).
-- **UT2 – JDBC:** incorporar MySQL, operaciones SQL y transacciones.
-- **UT3 – Componentes:** reorganizar el acceso a datos en componentes reutilizables.
+DataStock es una aplicación modular de consola orientada a la gestión de inventario para una pequeña empresa de distribución informática. En esta primera fase (**UT1**), la aplicación gestiona catálogos de productos mediante diferentes técnicas de tratamiento y almacenamiento en ficheros:
+- Exploración y diagnóstico del sistema de ficheros.
+- Importación e interoperabilidad con formatos JSON (Gson) y XML (DOM seguro frente a XXE/DTD).
+- Consultas y filtrado en memoria sin alterar las colecciones de trabajo.
+- Exportación del catálogo a JSON y XML preservando la integridad de datos.
+- Persistencia binaria y recuperación mediante serialización de objetos (`.dat`).
+- Actividades técnicas complementarias independientes: consultas directas XML con XPath y acceso aleatorio a registros binarios de longitud fija (36 bytes) con `RandomAccessFile`.
 
-**Esta entrega inicial solo prepara la UT1.** El código entregado **no resuelve** los requisitos funcionales: los menús muestran mensajes `[PENDIENTE]` hasta que se implementen.
+---
 
-## 2. Requisitos previos
+## 2. Requisitos Previos y Entorno
 
-- JDK **21** instalado y seleccionado en el IDE (`java -version`).
-- Maven instalado, o un IDE con integración Maven.
-- Consola con UTF-8 para ver correctamente tildes y símbolos.
+- **JDK 21** o superior instalado y configurado (`java -version`).
+- **Apache Maven 3.9+** configurado en el sistema (`mvn -version`).
+- Terminal compatible con UTF-8 para la correcta visualización de caracteres en español y códigos ANSI (opcionalmente configurable con `datastock.color=false` o `NO_COLOR=1`).
 
-## 3. Cómo abrir y ejecutar
+---
 
-1. Descomprime el ZIP y abre **la carpeta que contiene `pom.xml`** como proyecto Maven en IntelliJ IDEA, Eclipse o VS Code.
-2. Espera a que Maven descargue la dependencia Gson (requiere conexión a Internet la primera vez).
-3. Ejecuta `es.iesisidra.datastock.App` desde el IDE, o en una terminal situada en la raíz:
+## 3. Instrucciones de Compilación y Ejecución
 
+### Compilar el proyecto completo
 ```bash
 mvn clean compile
+```
+
+### Ejecutar la aplicación principal (Menú interactivo)
+```bash
 mvn exec:java
 ```
-
-Para ejecutar las actividades complementarias (todavía pendientes de desarrollar):
-
+O directamente con `java`:
 ```bash
-mvn exec:java -Dexec.mainClass=es.iesisidra.datastock.complementarias.XPathActividad
-mvn exec:java -Dexec.mainClass=es.iesisidra.datastock.complementarias.AccesoAleatorioActividad
+java -cp "target/classes;%USERPROFILE%/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar" es.iesisidra.datastock.App
 ```
 
-> Si el IDE muestra caracteres de control ANSI, desactiva el color al ejecutar Java con `-Ddatastock.color=false`, o configura la variable de entorno `NO_COLOR=1`.
+### Ejecutar las Actividades Complementarias Independientes
+1. **RF-FIC-07 · Consultas XML mediante XPath:**
+   ```bash
+   java -cp "target/classes;%USERPROFILE%/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar" es.iesisidra.datastock.complementarias.XPathActividad
+   ```
+2. **RF-FIC-08 · Acceso aleatorio con RandomAccessFile:**
+   ```bash
+   java -cp "target/classes;%USERPROFILE%/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar" es.iesisidra.datastock.complementarias.AccesoAleatorioActividad
+   ```
 
-## 4. Organización del proyecto
+### Ejecutar la Batería Automatizada de Pruebas de Aceptación
+```bash
+java -cp "target/classes;%USERPROFILE%/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar" es.iesisidra.datastock.pruebas.EjecutorPruebasAceptacion
+```
+Para regenerar la plantilla Word y el informe Markdown de pruebas:
+```bash
+java -cp "target/classes;%USERPROFILE%/.m2/repository/com/google/code/gson/gson/2.11.0/gson-2.11.0.jar" es.iesisidra.datastock.pruebas.GeneradorDocumentoPruebas
+```
+
+---
+
+## 4. Estructura del Proyecto
 
 ```text
 DataStock_UT1_Proyecto_Inicial/
-├── pom.xml
-├── README.md
-├── .gitignore
+├── pom.xml                                                 # Configuración Maven y dependencias
+├── README.md                                               # Documentación técnica del proyecto
+├── REGISTRO_PRUEBAS.md                                     # Informe completo de pruebas de aceptación
+├── DataStock_UT1_Plantilla_Registro_Pruebas_Rellenada.docx # Plantilla oficial Word cumplimentada
+├── .gitignore                                              # Filtro de ficheros compilados y temporales
 ├── datos/
-│   ├── ejemplos/              # JSON/XML para comenzar las pruebas
-│   └── salidas/               # Exportaciones y binarios generados
-├── material_referencia/       # Modelo relacional y script SQL para UT2
+│   ├── ejemplos/                                           # Catálogos de prueba válidos e inválidos
+│   │   ├── catalogo_valido.json
+│   │   ├── catalogo_valido.xml
+│   │   ├── catalogo_con_errores.json
+│   │   ├── catalogo_malformado.json
+│   │   ├── cp_json_01_tres_validos.json
+│   │   ├── cp_json_02_tres_validos_dos_invalidos.json
+│   │   ├── cp_json_04_duplicado.json
+│   │   ├── cp_xml_01_tres_validos.xml
+│   │   ├── cp_xml_02_invalidos.xml
+│   │   ├── cp_xml_03_dtd.xml
+│   │   ├── cp_xml_04_duplicado.xml
+│   │   ├── cp_xpath_3_productos.xml
+│   │   └── directorio_prueba/                              # Estructura para prueba de exploración
+│   └── salidas/                                            # Exportaciones y ficheros binarios generados
+│       ├── cp_exp_01.json
+│       ├── cp_exp_02.xml
+│       ├── cp_ser_01_inventario.dat
+│       └── stock.bin
+├── material_referencia/                                    # Esquema relacional y SQL para UT2
 └── src/main/java/es/iesisidra/datastock/
-    ├── App.java               # Punto de entrada
-    ├── modelo/
-    │   ├── Producto.java
-    │   ├── Categoria.java
-    │   ├── Proveedor.java
-    │   └── MovimientoStock.java
-    ├── servicio/
-    │   └── Inventario.java    # Colección compartida en memoria
-    ├── ui/
-    │   └── MenuPrincipal.java # Menú principal y submenús
-    ├── util/
-    │   ├── LectorConsola.java
-    │   └── ColoresConsola.java
-    └── complementarias/
-        ├── XPathActividad.java
-        └── AccesoAleatorioActividad.java
+    ├── App.java                                            # Clase principal de arranque
+    ├── modelo/                                             # Entidades del dominio
+    │   ├── Producto.java                                   # Entidad de catálogo (Serializable)
+    │   ├── Categoria.java                                  # Entidad categoría
+    │   ├── Proveedor.java                                  # Entidad proveedor
+    │   └── MovimientoStock.java                            # Entidad histórico de stock
+    ├── validacion/                                         # Reglas de negocio e integridad
+    │   ├── ValidadorProducto.java                          # Validaciones de campos (código, precio, stock...)
+    │   └── ResultadoValidacion.java                        # Objeto resultado con detalle de incidencias
+    ├── servicio/                                           # Lógica de aplicación
+    │   ├── Inventario.java                                 # Colección central en memoria
+    │   └── GestorConsultas.java                            # Operaciones de consulta y búsqueda
+    ├── ficheros/                                           # Gestión de I/O y formatos
+    │   ├── ExploradorRutas.java                            # RF-FIC-01: Inspección de rutas y directorios
+    │   ├── ImportadorJson.java                             # RF-FIC-02: Parseo Gson y control de incidencias
+    │   ├── ImportadorXml.java                              # RF-FIC-03: DOM seguro contra XXE/DTD
+    │   ├── GestorExportacion.java                          # RF-FIC-05: Generación JSON (Gson) y XML (DOM)
+    │   └── GestorSerializacion.java                        # RF-FIC-06: Persistencia ObjectOutput/InputStream
+    ├── complementarias/                                    # Actividades obligatorias independientes
+    │   ├── XPathActividad.java                             # RF-FIC-07: Consultas directas XML con XPath
+    │   └── AccesoAleatorioActividad.java                   # RF-FIC-08: Registros fijos de 36 bytes (RAF)
+    ├── ui/                                                 # Capa de presentación por consola
+    │   └── MenuPrincipal.java                              # Navegación y delegación limpia sin lógica en switch
+    ├── util/                                               # Utilidades auxiliares
+    │   ├── LectorConsola.java                              # Scanner centralizado seguro
+    │   └── ColoresConsola.java                             # Formato y colores ANSI
+    └── pruebas/                                            # Automatización de pruebas
+        ├── EjecutorPruebasAceptacion.java                  # Suite de las 34 pruebas de aceptación
+        └── GeneradorDocumentoPruebas.java                  # Generador de Word .docx y Markdown
 ```
 
-## 5. Menús que ya aparecen
+---
 
-**Menú principal:**
+## 5. Arquitectura y Buenas Prácticas Aplicadas
 
-```text
-1. Explorar ficheros y directorios     RF-FIC-01
-2. Importar productos desde JSON       RF-FIC-02
-3. Importar productos desde XML        RF-FIC-03
-4. Consultar productos                 RF-FIC-04
-5. Exportar productos                  RF-FIC-05
-6. Guardar y recuperar inventario      RF-FIC-06
-0. Salir
-```
+1. **Separación de responsabilidades:** La interfaz de usuario (`MenuPrincipal`) no alberga la lógica de validación, transformación ni persistencia; delega en clases especializadas (`ficheros`, `servicio`, `validacion`).
+2. **Cierre seguro de flujos:** Uso de `try-with-resources` en todas las aperturas de ficheros, flujos binarios y streams de texto para prevenir fugas de descriptores (`FileDescriptor leaks`).
+3. **Seguridad contra vulnerabilidades XML:** Configuración defensiva en `DocumentBuilderFactory` deshabilitando `DOCTYPE` y carga de entidades externas para mitigar ataques XXE (XML External Entity Injection).
+4. **Validación estricta de datos:** El validador centraliza las restricciones de negocio (formato regex de código `[A-Z0-9-]+`, precio > 0 con `BigDecimal`, stock >= 0, longitud de texto y unicidad insensible a mayúsculas/minúsculas).
+5. **Aislamiento de almacenes:** Los cambios realizados sobre el fichero binario didáctico `stock.bin` (`RandomAccessFile`) son completamente independientes de la colección en memoria, demostrando el acceso aleatorio mediante offsets fijos (`pos * 36` y `pos * 36 + 32`).
 
-**4. Consultar productos:** listar, buscar por código, buscar por nombre, volver.  
-**5. Exportar productos:** exportar JSON, exportar XML, volver.  
-**6. Guardar y recuperar inventario:** guardar `.dat`, recuperar `.dat`, volver.
+---
 
-`RF-FIC-07` (XPath) y `RF-FIC-08` (`RandomAccessFile`) se ejecutan en clases independientes.
+## 6. Resultados de las Pruebas de Aceptación
 
-## 6. ¿Qué está hecho y qué debes programar?
+Se han ejecutado y superado el **100% de las pruebas de aceptación** descritas en el enunciado oficial:
+- **Total ejecutadas:** 34
+- **Superadas:** 34
+- **No superadas:** 0
 
-**Se proporciona:** clases del modelo con Javadoc y getters/setters, colección inicial vacía, navegación de menús, lectura básica de consola, colores ANSI opcionales, configuración Maven y datos de ejemplo.
-
-**Debes implementar:** la exploración de rutas, lectura/validación/importación JSON y XML, consultas, exportación, serialización y recuperación, XPath y acceso aleatorio. También debes crear las pruebas y registrar sus resultados.
-
-**Importante:** el menú solo debe **presentar opciones y delegar**. No coloques en el `switch` la lógica de ficheros, JSON, XML, validaciones o serialización. Puedes crear tus propios paquetes y clases, por ejemplo `ficheros`, `validacion`, `servicio`.
-
-La clase `Inventario` contiene la lista compartida; el alumnado debe implementar las reglas de alta, búsqueda y sustitución conforme al enunciado. **No se precargan productos:** se empieza con el inventario vacío.
-
-## 7. Reglas clave del enunciado
-
-- JSON raíz `productos` y XML raíz `catalogo` con elementos `producto`.
-- Los campos del producto son `codigo`, `nombre`, `precio`, `stock`, `categoriaId` y `proveedorId`.
-- Los códigos no se duplican, incluso si cambia el uso de mayúsculas/minúsculas.
-- Un documento mal formado o con estructura general inválida **no modifica** el inventario.
-- Si el documento es válido pero contiene registros incorrectos, se incorporan solo los válidos.
-- Importar JSON/XML **añade** productos; recuperar un `.dat` **sustituye** el inventario, tras confirmar cuando corresponda.
-- En UT1 no hay base de datos: los ID de categoría y proveedor se comprueban como enteros positivos, pero no se buscan en MySQL.
-- El fichero `stock.bin` de RF-FIC-08 es una **copia independiente**: los cambios hechos allí no actualizan la colección Java.
-
-## 8. GitHub, documentación y pruebas
-
-Crea un repositorio individual, realiza commits con mensajes significativos y mantén actualizado este README con las instrucciones reales de tu solución. Entrega el documento de pruebas cumplimentado con los casos de aceptación del enunciado y conserva ejemplos de entradas válidas e inválidas.
-
-Antes de entregar, comprueba que `mvn clean compile` funciona, que el menú no termina ante entradas inválidas y que puedes explicar el código de cada requisito. La práctica y la prueba individual se evaluarán conforme a la programación didáctica.
-
-## 9. Referencia
-
-Consulta el **enunciado DataStock UT1** facilitado en el aula virtual: es la fuente que determina el comportamiento exigido. El SQL y el diagrama del directorio `material_referencia` se facilitan para entender el proyecto completo; **no hay que conectar MySQL en UT1**.
+El desglose completo por caso de prueba (`CP-FIC-01` a `CP-RAF-05`), junto con los datos de entrada, comportamiento esperado, resultado obtenido y evidencias, se encuentra recogido en:
+- `REGISTRO_PRUEBAS.md` (formato Markdown integrado en el repositorio).
+- `DataStock_UT1_Plantilla_Registro_Pruebas_Rellenada.docx` (plantilla oficial Word de entrega).
