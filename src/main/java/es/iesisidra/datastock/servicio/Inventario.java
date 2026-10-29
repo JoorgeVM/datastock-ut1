@@ -102,6 +102,7 @@ public class Inventario {
      */
     public List<Producto> getProductosOrdenadosPorCodigo() {
         List<Producto> ordenados = new ArrayList<>(productos);
+        // Ordenación insensible a mayúsculas y retorno de una vista inmutable para proteger el estado interno
         ordenados.sort(Comparator.comparing(
                 p -> p.getCodigo() != null ? p.getCodigo().trim().toUpperCase() : "",
                 String.CASE_INSENSITIVE_ORDER
