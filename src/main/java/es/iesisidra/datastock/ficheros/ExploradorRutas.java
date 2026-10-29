@@ -53,6 +53,7 @@ public class ExploradorRutas {
             int totalFicheros = 0;
             int totalDirectorios = 0;
 
+            // Clasificación de entradas y cálculo de estadísticas distinguiendo directorios de ficheros
             for (File elemento : elementos) {
                 if (elemento.isDirectory()) {
                     totalDirectorios++;
