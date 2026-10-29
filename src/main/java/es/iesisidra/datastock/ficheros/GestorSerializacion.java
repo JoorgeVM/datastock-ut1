@@ -62,6 +62,7 @@ public class GestorSerializacion {
             }
         }
 
+        // Copia defensiva de la colección para asegurar la integridad durante la serialización binaria
         List<Producto> copia = new ArrayList<>(inventario.getProductos());
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fichero))) {
             oos.writeObject(copia);
