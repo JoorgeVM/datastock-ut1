@@ -120,7 +120,7 @@ public final class AccesoAleatorioActividad {
             raf.setLength(0);
 
             for (Producto p : ordenados) {
-                // 1. Código formateado a exactamente 12 caracteres (24 bytes)
+                // 1. Código formateado a exactamente 12 caracteres con relleno de espacios (24 bytes en UTF-16)
                 String cod = p.getCodigo() != null ? p.getCodigo().trim() : "";
                 if (cod.length() > LONGITUD_CODIGO) {
                     cod = cod.substring(0, LONGITUD_CODIGO);
