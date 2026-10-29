@@ -73,6 +73,7 @@ public final class XPathActividad {
             return;
         }
 
+        // Validación del elemento raíz del documento según el formato requerido <catalogo>
         Element raiz = doc.getDocumentElement();
         if (!"catalogo".equalsIgnoreCase(raiz.getTagName())) {
             System.out.println(ColoresConsola.pintar("Error: La raíz del documento debe ser <catalogo>. Encontrada: <" + raiz.getTagName() + ">", ColoresConsola.ROJO));
