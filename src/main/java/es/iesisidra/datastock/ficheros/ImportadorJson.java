@@ -183,7 +183,7 @@ public class ImportadorJson {
                 continue;
             }
 
-            // Comprobar duplicado en el mismo fichero o en memoria
+            // Comprobación de unicidad: evita duplicados dentro del propio fichero y contra el inventario en memoria
             String codigoNorm = ValidadorProducto.normalizarCodigo(codigo).toUpperCase();
             if (codigosEnFichero.contains(codigoNorm) || inventario.existeCodigo(codigo)) {
                 rechazados++;
